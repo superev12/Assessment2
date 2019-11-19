@@ -1,103 +1,44 @@
 package com.kroy.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;;
+import com.kroy.game.scenes.TitleScreen;;
 
-public class MyGdxGame extends ApplicationAdapter {
+public class MyGdxGame extends Game 
+{	
+	public SpriteBatch batch;
+	public BitmapFont font;
 	
-	public enum mapTiles
+	@Override
+	public void create () 
 	{
-		GRASS,
-		NOTGRASS
-	}
-	
-	SpriteBatch batch;
-	Texture img;
-	Texture iFiretruck;
-	Texture iGrass;
-	Texture iAlien;
-	Boolean firetruckPlaces[][] = new Boolean[16][16];
-	Boolean alienPlaces[][] = new Boolean[16][16];
-	mapTiles map[][] = new mapTiles[16][16];
-	
-	
-	@Override
-	public void create () {
+		// Register all resources that are being used
 		batch = new SpriteBatch();
-		iFiretruck = new Texture("Firetruck.png");
-		iGrass = new Texture("Grass.png");
-		iAlien = new Texture("Alien.png");
-		for (int i = 0; i < 16; i++)
-		{
-			for (int j = 0; j < 16; j++)
-			{
-				firetruckPlaces[i][j] = false;
-				alienPlaces[i][j] = false;
-			}
-		}
-		
-		for (int i = 0; i < 16; i++)
-		{
-			for (int j = 0; j < 16; j++)
-			{
-				map[i][j] = mapTiles.NOTGRASS;
-			}
-		}
-		for (int i = 0; i < 16; i++)
-		{
-			for (int j = 0; j < 16; j++)
-			{
-				if (Math.sqrt(Math.pow(i-8, 2)+Math.pow(j-8, 2)) < 5)
-				{
-					map[i][j] = mapTiles.GRASS;
-				}
-			}
-		}
-
-		firetruckPlaces[2][2] = true;
-		firetruckPlaces[5][10] = true;
-		alienPlaces[8][9] = true;
-		img = new Texture("badlogic.jpg");
-		
-		
+		font = new BitmapFont();
+		// Start at the main menu
+		this.setScreen(new TitleScreen(this));
 	}
 
 	@Override
-	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
+	public void render () 
+	{
+		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-		for (int i = 0; i < 16; i++)
-		{
-			for (int j = 0; j < 16; j++)
-			{
-				if (map[i][j] == mapTiles.GRASS)
-				{
-					batch.draw(iGrass, i*32, j*32, 32, 32);
-				}
-				if (firetruckPlaces[i][j])
-				{
-					batch.draw(iFiretruck, i*32, j*32, 32, 32);
-				}
-				if (alienPlaces[i][j])
-				{
-					batch.draw(iAlien, i*32, j*32, 32, 32);
-				}
-			}
-		}
-		
-		
-		batch.end();
+		// Render all the things that are on screen
+		super.render();
+
 	}
 	
 	@Override
-	public void dispose () {
+	public void dispose () 
+	{
+		// Unregister all resources that have been used
 		batch.dispose();
-		img.dispose();
-		iFiretruck.dispose();
+		font.dispose();
 	}
 }
