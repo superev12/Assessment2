@@ -3,10 +3,13 @@ package com.kroy.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.kroy.game.scenes.GameScreen;
+import com.kroy.game.scenes.ScoreScreen;
 import com.kroy.game.scenes.TitleScreen;;
 
 public class MyGdxGame extends Game 
@@ -14,14 +17,26 @@ public class MyGdxGame extends Game
 	public SpriteBatch batch;
 	public BitmapFont font;
 	
+	private Screen titleScreen;
+	private Screen gameScreen;
+	private Screen scoreScreen;
+	
+	public enum eScreen
+	{
+		TITLE,
+		GAME,
+		SCORE
+	}
+	
 	@Override
 	public void create () 
 	{
 		// Register all resources that are being used
 		batch = new SpriteBatch();
 		font = new BitmapFont();
-		// Start at the main menu
-		this.setScreen(new TitleScreen(this));
+		// Initialise screens
+		this.changeScreen(eScreen.TITLE);
+		this.setScreen(titleScreen);
 	}
 
 	@Override
@@ -40,5 +55,21 @@ public class MyGdxGame extends Game
 		// Unregister all resources that have been used
 		batch.dispose();
 		font.dispose();
+	}
+	
+	public void changeScreen(eScreen s)
+	{
+		switch(s)
+		{
+		case TITLE:
+			if (titleScreen == null) titleScreen = new TitleScreen(this);
+			this.setScreen(titleScreen);
+		case GAME:
+			if (gameScreen == null) gameScreen = new GameScreen(this);
+			this.setScreen(gameScreen);
+		case SCORE:
+			if (scoreScreen == null) scoreScreen = new ScoreScreen(this);
+			this.setScreen(scoreScreen);
+		}
 	}
 }

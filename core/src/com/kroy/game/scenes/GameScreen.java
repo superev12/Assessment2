@@ -1,10 +1,11 @@
 package com.kroy.game.scenes;
 
 import com.badlogic.gdx.Screen;
+import com.kroy.game.MyGdxGame;
 
 public class GameScreen implements Screen
 {
-	public GameScreen()
+	public GameScreen(final MyGdxGame game)
 	{
 		
 	}
