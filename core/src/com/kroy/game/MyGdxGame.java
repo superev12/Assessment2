@@ -17,10 +17,6 @@ public class MyGdxGame extends Game
 	public SpriteBatch batch;
 	public BitmapFont font;
 	
-	private Screen titleScreen;
-	private Screen gameScreen;
-	private Screen scoreScreen;
-	
 	public enum eScreen
 	{
 		TITLE,
