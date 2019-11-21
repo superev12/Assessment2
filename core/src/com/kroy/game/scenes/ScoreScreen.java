@@ -5,9 +5,11 @@ import com.kroy.game.MyGdxGame;
 
 public class ScoreScreen implements Screen
 {
+	final MyGdxGame game;
+	
 	public ScoreScreen(final MyGdxGame game)
 	{
-		
+		this.game = game;
 	}
 
 	@Override

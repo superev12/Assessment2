@@ -1,13 +1,18 @@
 package com.kroy.game.scenes;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.kroy.game.MyGdxGame;
 
 public class GameScreen implements Screen
 {
+	
+	final MyGdxGame game;
+	
 	public GameScreen(final MyGdxGame game)
 	{
-		
+		this.game = game;
 	}
 
 	@Override
@@ -17,9 +22,13 @@ public class GameScreen implements Screen
 	}
 
 	@Override
-	public void render(float delta) {
-		// TODO Auto-generated method stub
-		
+	public void render(float delta)
+	{
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		Gdx.gl.glClearColor(1, 0, 1, 1);
+		game.batch.begin();
+		game.font.draw(game.batch, "Ook", 128, 256);
+		game.batch.end();
 	}
 
 	@Override

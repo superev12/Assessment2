@@ -35,8 +35,7 @@ public class MyGdxGame extends Game
 		batch = new SpriteBatch();
 		font = new BitmapFont();
 		// Initialise screens
-		this.changeScreen(eScreen.TITLE);
-		this.setScreen(titleScreen);
+		this.setScreen(new TitleScreen(this));
 	}
 
 	@Override
@@ -55,21 +54,5 @@ public class MyGdxGame extends Game
 		// Unregister all resources that have been used
 		batch.dispose();
 		font.dispose();
-	}
-	
-	public void changeScreen(eScreen s)
-	{
-		switch(s)
-		{
-		case TITLE:
-			if (titleScreen == null) titleScreen = new TitleScreen(this);
-			this.setScreen(titleScreen);
-		case GAME:
-			if (gameScreen == null) gameScreen = new GameScreen(this);
-			this.setScreen(gameScreen);
-		case SCORE:
-			if (scoreScreen == null) scoreScreen = new ScoreScreen(this);
-			this.setScreen(scoreScreen);
-		}
 	}
 }
