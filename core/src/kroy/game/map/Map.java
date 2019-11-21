@@ -35,4 +35,15 @@ public class Map
 		return entityLayer[x][y];
 	}
 	
+	public void moveEntity(int x1, int y1, int x2, int y2)
+	{
+		entityLayer[x2][y2] = entityLayer[x1][y1];
+		entityLayer[x1][y1] = null;
+	}
+	
+	public void debugMakeFiretruck(int x, int y)
+	{
+		entityLayer[x][y] = new Firetruck();
+	}
+	
 }

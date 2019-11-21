@@ -8,5 +8,6 @@ public class Firetruck extends Entity
 	public Firetruck()
 	{
 		this.texture = new Texture(Gdx.files.internal("Firetruck2.png"));
+		this.id = entityID.FIRETRUCK;
 	}
 }
