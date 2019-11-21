@@ -6,23 +6,18 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.kroy.game.MyGdxGame;
 
-import map.Map;
-import map.Map.Tile;
+import kroy.game.map.Map;
 
 public class GameScreen implements Screen
 {
 	
 	final MyGdxGame game;
 	Map map;
-	Texture thing;
 	
 	public GameScreen(final MyGdxGame game)
 	{
 		this.game = game;
 		this.map = new Map();
-		
-		// Initialise textures
-		thing = new Texture(Gdx.files.internal("Grass.png"));
 	}
 
 	@Override
@@ -42,9 +37,11 @@ public class GameScreen implements Screen
 			for (int j = 0; j < Map.HEIGHT; j++)
 			{
 				// Render background
-				if (map.getBackground(i, j) == Map.Tile.THING)
+				game.batch.draw(map.getBackground(i, j).getTexture(), i*32, j*32, 32, 32);
+				// Render entities
+				if (map.getEntity(i, j) != null)
 				{
-					game.batch.draw(thing, i*32, j*32, 32, 32);
+					game.batch.draw(map.getEntity(i, j).getTexture(), i*32, j*32, 32, 32);
 				}
 			}
 		}
