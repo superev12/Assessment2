@@ -13,16 +13,28 @@ import kroy.game.map.Map;
 
 public class GameScreen implements Screen
 {
+	public enum turnPhase
+	{
+		PLAYER,
+		POST_PLAYER,
+		ETS,
+		POST_ETS
+	}
 	
 	final MyGdxGame game;
 	Map map;
 	Vector2 selected;
+	public turnPhase turn;
 	
 	public GameScreen(final MyGdxGame game)
 	{
 		this.game = game;
 		this.map = new Map();
 		this.selected = null;
+		this.turn = turnPhase.PLAYER;
+		
+		map.debugMakeFiretruck(2, 2);
+		map.debugMakeFiretruck(3, 4);
 	}
 
 	@Override
@@ -54,22 +66,49 @@ public class GameScreen implements Screen
 		game.batch.end();
 		
 		// Get player input
-		if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT))
+		switch(this.turn)
 		{
-			int tileX = (int)Math.floor(Gdx.input.getX()/32);
-			int tileY = Map.HEIGHT - (int)Math.floor(Gdx.input.getY()/32) - 1;
-			System.out.println("x: " + tileX + " y: " + tileY);
-			if (map.getEntity(tileX, tileY) != null && map.getEntity(tileX, tileY).id == entityID.FIRETRUCK)
+		case PLAYER:
+			// Left click
+			if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT))
 			{
-				selected = new Vector2(tileX, tileY);
-				System.out.println("Selected: " + selected);
+				int tileX = (int)Math.floor(Gdx.input.getX()/32);
+				int tileY = Map.HEIGHT - (int)Math.floor(Gdx.input.getY()/32) - 1;
+				System.out.println("x: " + tileX + " y: " + tileY);
+				if (map.getEntity(tileX, tileY) != null && map.getEntity(tileX, tileY).id == entityID.FIRETRUCK)
+				{
+					selected = new Vector2(tileX, tileY);
+					System.out.println("Selected: " + selected);
+				}
+				else if (map.getEntity(tileX, tileY) == null && selected != null)
+				{
+					map.moveEntity((int)selected.x, (int)selected.y, tileX, tileY);
+				}
 			}
-			else if (map.getEntity(tileX, tileY) == null && selected != null)
+			
+			// Space
+			if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
 			{
-				map.moveEntity((int)selected.x, (int)selected.y, tileX, tileY);
+				System.out.println("Space pressed");
+				this.turn = turnPhase.POST_PLAYER;
 			}
-			//map.debugMakeFiretruck(tileX, tileY);
+			break;
+		case POST_PLAYER:
+			// Add procedures that take place at the end of the player's turn here
+			this.turn = turnPhase.ETS;
+			break;
+		case ETS:
+			// ET turn
+			System.out.println("The ETs are taking their turn.");
+			this.turn = turnPhase.POST_ETS;
+			break;
+		case POST_ETS:
+			// Add procedures that take place at the end of the ETs' turn here
+			map.resetActions();
+			this.turn = turnPhase.PLAYER;
+			break;
 		}
+
 	}
 
 	@Override
