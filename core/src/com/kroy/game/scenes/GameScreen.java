@@ -54,7 +54,7 @@ public class GameScreen implements Screen
 		game.batch.end();
 		
 		// Get player input
-		if (Gdx.input.isButtonPressed(Input.Buttons.LEFT))
+		if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT))
 		{
 			int tileX = (int)Math.floor(Gdx.input.getX()/32);
 			int tileY = Map.HEIGHT - (int)Math.floor(Gdx.input.getY()/32) - 1;
